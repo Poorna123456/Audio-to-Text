@@ -159,11 +159,6 @@ const MicRecorderComponent = () => {
       // Groq requires a File object with a proper extension
       const file = new File([blob], "recording.webm", { type: "audio/webm" });
 
-      const groqApiKey = import.meta.env.VITE_GROQ_API_KEY;
-      if (!groqApiKey) {
-        throw new Error("Groq API Key is missing. Please add VITE_GROQ_API_KEY to your environment variables.");
-      }
-
       const formData = new FormData();
       formData.append("file", file);
       formData.append("model", "whisper-large-v3");
@@ -172,11 +167,9 @@ const MicRecorderComponent = () => {
         formData.append("language", selectedLanguage);
       }
 
-      const groqResponse = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
+      // Call our secure Vercel API endpoint instead of Groq directly
+      const groqResponse = await fetch("/api/transcribe", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${groqApiKey}`,
-        },
         body: formData,
       });
 

@@ -11,8 +11,12 @@ A modern, full-stack web application that allows users to instantly transcribe s
 
 ## Tech Stack
 - **Frontend**: React, TailwindCSS, Vite
-- **Backend**: Python, Flask
-- **AI Model**: Faster-Whisper (optimized for local CPU inference)
+- **API**: Vercel Serverless Edge Functions
+- **AI Model**: Groq Whisper (whisper-large-v3) for instant cloud inference
+- **Optional Local Fallback**: Python backend included for local CPU inference
+
+## Architecture
+The application runs entirely on Vercel. When an audio file is recorded or uploaded, the React frontend securely passes it to a Vercel Serverless API (`/api/transcribe`). This backend function holds the `GROQ_API_KEY` securely and calls Groq's high-speed Whisper AI to return accurate transcripts with timestamps.
 
 ## How to Run Locally
 
