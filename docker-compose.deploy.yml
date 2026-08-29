@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  backend:
+    image: poornashree/voicetext-backend:latest
+    platform: linux/amd64
+    ports:
+      - "5001:5001"
+    working_dir: /app/backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:5001/api/test"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    pull_policy: always
+
+  frontend:
+    image: poornashree/voicetext-frontend:latest
+    platform: linux/amd64
+    ports:
+      - "5173:5173"
+    working_dir: /app/frontend
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    pull_policy: always

@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    ports:
+      - "5001:5001"
+    working_dir: /app/backend
+    volumes:
+      - ./backend-api:/app/backend
+
+  frontend:
+    platform: linux/amd64
+    build:
+      context: .
+      target: frontend
+    ports:
+      - "5173:5173"
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend-ui:/app/frontend
+      - /app/frontend/node_modules  # Use container's own node_modules
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.env
+__pycache__/
+*.pyc
+*.srt
+*.txt
+*.wav
+*.mp3
+*.m4a
+uploads/
